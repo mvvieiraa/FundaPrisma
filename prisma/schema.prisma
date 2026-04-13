@@ -1,13 +1,20 @@
 
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
 
 }
+
+
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 //Comando: npx prisma db push - para criar a tabela no banco de dados
@@ -16,4 +23,18 @@ model User {
   id Int @id @default(autoincrement())
   name String 
   email String @unique
+  status Boolean @default(true)
+  role  Role @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts Post[]
+}
+
+model Post {
+  id Int @id @default(autoincrement())
+  title String
+  subtitle String
+  content String
+  userID Int
+  user User @relation(fields: [userID], references: [id])
 }
