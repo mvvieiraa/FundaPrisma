@@ -35,6 +35,9 @@ model Post {
   title String
   subtitle String
   content String
-  userID Int
+  userID Int @map("user_id") //mapeia colunas user_id para o banco de dados
   user User @relation(fields: [userID], references: [id])
+
+
+@@map("posts") //mapeia as tabelas para posts no banco de dados
 }
